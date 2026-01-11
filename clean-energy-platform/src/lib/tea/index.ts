@@ -1,0 +1,56 @@
+/**
+ * TEA Module Index
+ * Central export for all techno-economic analysis functionality
+ */
+
+// Quality Assurance (Sprint 1)
+export * from './quality-orchestrator'
+export * from './quality-rubric'
+export * from './calculation-validator'
+export * from './assumption-validator'
+export * from './result-reconciliation'
+
+// Core Calculations (Sprint 1)
+export * from './calculations'
+
+// Advanced Calculations (Sprint 2)
+export * from './monte-carlo'
+export * from './sensitivity'
+export * from './financial-engine'
+export * from './cost-estimator'
+
+// Process Engineering (Sprint 3)
+export * from './material-energy-balance'
+export * from './pfd-generator'
+export * from './equipment-specs'
+export * from './models'
+
+// Report Generation (Sprint 4)
+export * from './pdf-report-generator'
+export * from './visualizations'
+export * from './table-generator'
+export * from './report-templates'
+
+// Data & Standards (Sprint 5)
+export * from './standards-db'
+export * from './benchmarks'
+export * from './defaults-database'
+
+// Re-export commonly used types
+export type {
+  TEAInput_v2,
+  TEAResult_v2,
+  TEAReportConfig,
+  CalculationProvenance,
+} from '@/types/tea'
+
+export type {
+  ProcessStream,
+  EquipmentItem,
+  MaterialBalance,
+  EnergyBalance,
+  TEAValidationResult,
+  FeedstockSpecification,
+  EconomicAllocation,
+  UncertaintyParameter,
+} from '@/types/tea-process'
