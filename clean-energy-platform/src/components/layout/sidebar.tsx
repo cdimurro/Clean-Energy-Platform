@@ -14,6 +14,11 @@ import {
   Activity,
   PlusCircle,
   ClipboardList,
+  Gauge,
+  Users,
+  ScrollText,
+  Leaf,
+  Briefcase,
 } from 'lucide-react'
 
 interface NavItem {
@@ -23,11 +28,41 @@ interface NavItem {
   highlight?: boolean
 }
 
-const mainNavItems: NavItem[] = [
-  { name: 'Dashboard', href: '/', icon: Home },
-  { name: 'New Assessment', href: '/assessments/new', icon: PlusCircle, highlight: true },
-  { name: 'Assessments', href: '/assessments', icon: ClipboardList },
-  { name: 'Reports', href: '/reports', icon: FileText },
+interface NavSection {
+  title: string
+  items: NavItem[]
+}
+
+const navSections: NavSection[] = [
+  {
+    title: 'Assessment',
+    items: [
+      { name: 'Dashboard', href: '/', icon: Home },
+      { name: 'New Assessment', href: '/assessments/new', icon: PlusCircle, highlight: true },
+      { name: 'Assessments', href: '/assessments', icon: ClipboardList },
+      { name: 'Reports', href: '/reports', icon: FileText },
+    ],
+  },
+  {
+    title: 'Analysis Tools',
+    items: [
+      { name: 'TRL Assessment', href: '/trl-assessment', icon: Gauge },
+      { name: 'Competitor Intel', href: '/competitive-intelligence', icon: Users },
+      { name: 'Patent Analysis', href: '/patent-intelligence', icon: ScrollText },
+    ],
+  },
+  {
+    title: 'Climate',
+    items: [
+      { name: 'Climate Diligence', href: '/climate-diligence', icon: Leaf },
+    ],
+  },
+  {
+    title: 'Investor Portal',
+    items: [
+      { name: 'Portal Dashboard', href: '/investor-portal', icon: Briefcase },
+    ],
+  },
 ]
 
 const secondaryNavItems: NavItem[] = [
@@ -113,43 +148,57 @@ export function Sidebar({ mobileOpen = false, onMobileClose }: SidebarProps) {
 
         {/* Main Navigation */}
         <nav className="flex-1 px-3 py-4 overflow-y-auto">
-          <div className="space-y-1">
-            {mainNavItems.map((item) => {
-              const isActive = isPathActive(item.href)
-              const Icon = item.icon
+          {navSections.map((section, sectionIndex) => (
+            <div key={section.title}>
+              {/* Section Title */}
+              {!collapsed && (
+                <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wider text-foreground-muted">
+                  {section.title}
+                </div>
+              )}
+              <div className="space-y-1">
+                {section.items.map((item) => {
+                  const isActive = isPathActive(item.href)
+                  const Icon = item.icon
 
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={cn(
-                    'flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group relative',
-                    isActive
-                      ? 'bg-primary/10 text-primary'
-                      : item.highlight
-                        ? 'text-primary hover:bg-primary/5 border border-primary/20'
-                        : 'text-foreground hover:bg-background-hover'
-                  )}
-                >
-                  <Icon
-                    className={cn(
-                      'w-5 h-5 shrink-0',
-                      isActive || item.highlight
-                        ? 'text-primary'
-                        : 'text-foreground'
-                    )}
-                  />
-                  {!collapsed && (
-                    <span className="flex-1 text-sm font-medium">
-                      {item.name}
-                    </span>
-                  )}
-                </Link>
-              )
-            })}
-          </div>
+                  return (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className={cn(
+                        'flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group relative',
+                        isActive
+                          ? 'bg-primary/10 text-primary'
+                          : item.highlight
+                            ? 'text-primary hover:bg-primary/5 border border-primary/20'
+                            : 'text-foreground hover:bg-background-hover'
+                      )}
+                    >
+                      <Icon
+                        className={cn(
+                          'w-5 h-5 shrink-0',
+                          isActive || item.highlight
+                            ? 'text-primary'
+                            : 'text-foreground'
+                        )}
+                      />
+                      {!collapsed && (
+                        <span className="flex-1 text-sm font-medium">
+                          {item.name}
+                        </span>
+                      )}
+                    </Link>
+                  )
+                })}
+              </div>
+              {/* Section Divider */}
+              {sectionIndex < navSections.length - 1 && (
+                <div className="my-3 border-t border-border/50" />
+              )}
+            </div>
+          ))}
 
-          {/* Divider */}
+          {/* Divider before secondary */}
           <div className="my-4 border-t border-border" />
 
           {/* Secondary Navigation */}
